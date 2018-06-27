@@ -32,9 +32,9 @@ class User < ApplicationRecord
   # returns true if the given token matches the digest
   def authenticated?(attribute, token)
     # because inside user model, can omit self
-    digest = send("#{attribute}_digest")
+    digest = self.send("#{attribute}_digest")
     return false if digest.nil?
-    BCrypt::Password.new(digest).is_password?(token)
+    BCrypt::Password.new(digest).is_password?(token)  
   end
   
   # activates an account
@@ -46,7 +46,7 @@ class User < ApplicationRecord
   
   # sends activation email
   def send_activation_email
-    UserMailer.account_activation(self).deliver_now  
+    UserMailer.account_activation(self).deliver_now
   end
   
   # forgets a user
